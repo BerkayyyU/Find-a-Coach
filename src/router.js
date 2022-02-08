@@ -17,11 +17,11 @@ const routes = createRouter({
       path: '/coaches/:id',
       component: CoachDetails,
       children: [
-        { path: '/contact', component: ContactCoach }, // /coaches/c1/contact
+        { path: 'contact', component: ContactCoach }, // /coaches/c1/contact
       ],
     },
     { path: '/register', component: CoachRegistration },
-    { path: '/request', component: RequestsReceived },
+    { path: '/requests', component: RequestsReceived },
     { path: '/:notFound(.*)', component: NotFound },
   ],
 });
