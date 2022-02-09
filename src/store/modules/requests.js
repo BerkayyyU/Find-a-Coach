@@ -21,6 +21,14 @@ export const requestsModule = {
       context.commit('addRequest', newRequest);
     },
   },
+  getters: {
+    requests(state) {
+      return state.requests;
+    },
+    hasRequests(state) {
+      return state.requests && state.requests.length > 0;
+    },
+  },
 };
 
 export default requestsModule;
