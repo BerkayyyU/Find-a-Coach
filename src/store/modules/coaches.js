@@ -1,5 +1,5 @@
 const coachesModule = {
-  namepsaced: true,
+  namespaced: true,
   state() {
     return {
       coaches: [

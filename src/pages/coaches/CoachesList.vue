@@ -35,10 +35,10 @@ export default {
   },
   computed: {
     isCoach() {
-      return this.$store.getters['isCoach'];
+      return this.$store.getters['coaches/isCoach'];
     },
     filteredCoaches() {
-      const coaches = this.$store.getters['coaches'];
+      const coaches = this.$store.getters['coaches/coaches'];
       return coaches.filter((coach) => {
         if (this.activeFilters.frontend && coach.areas.includes('frontend')) {
           return true;
@@ -53,7 +53,7 @@ export default {
       });
     },
     hasCoaches() {
-      return this.$store.getters['hasCoaches'];
+      return this.$store.getters['coaches/hasCoaches'];
     },
   },
   methods: {
