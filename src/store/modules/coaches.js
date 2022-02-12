@@ -68,7 +68,8 @@ const coachesModule = {
       const resData = await res.json();
 
       if (!res.ok) {
-        //error
+        const error = new Error(resData.message || 'Failed to fetch!');
+        throw error;
       }
 
       const coaches = [];
