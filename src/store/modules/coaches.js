@@ -2,6 +2,7 @@ const coachesModule = {
   namespaced: true,
   state() {
     return {
+      lastFetch: null,
       coaches: [
         // {
         //   id: 'c1',
@@ -32,6 +33,9 @@ const coachesModule = {
     setCoaches(state, payload) {
       state.coaches = [...payload];
     },
+    setFetchTimestamp(state) {
+      state.lastFetch = new Date().getTime();
+    },
   },
   actions: {
     async registerCoach(context, data) {
@@ -59,7 +63,11 @@ const coachesModule = {
 
       context.commit('registerCoach', { ...coachData, id: userId });
     },
-    async loadCoaches(context) {
+    async loadCoaches(context, payload) {
+      if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+        return;
+      }
+
       const res = await fetch(
         'https://vue-http-demo-47447-default-rtdb.europe-west1.firebasedatabase.app/coaches.json',
         { method: 'GET' }
@@ -87,6 +95,7 @@ const coachesModule = {
       }
 
       context.commit('setCoaches', coaches);
+      context.commit('setFetchTimestamp');
     },
   },
   getters: {
@@ -100,6 +109,14 @@ const coachesModule = {
       const coaches = getters.coaches;
       const userId = rootGetters.userId;
       return coaches.some((coach) => coach.id === userId);
+    },
+    shouldUpdate(state) {
+      const lastFetch = state.lastFetch;
+      if (!lastFetch) {
+        return true;
+      }
+      const currentTimestamp = new Date().getTime();
+      return (currentTimestamp - lastFetch) / 1000 > 60;
     },
   },
 };
